@@ -1,0 +1,51 @@
+# Node modules
+node_modules/
+
+# Arquivos de log
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ambiente
+.env
+.env.local
+.env.*.local
+
+# Diretórios de build
+dist/
+build/
+coverage/
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Diretórios de cache
+.cache/
+.pnpm-store/
+.next/
+out/
+.vite/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor de texto
+.vscode/
+.idea/
+
+# Testes
+test-results/
+
+# PM2 (gerenciador de processos para Node.js)
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Outros
+npm-debug.log
+yarn-error.log
