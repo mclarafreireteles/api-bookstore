@@ -1,6 +1,6 @@
 import express from "express";
 import connectDatabase from "./config/dbconnect.js";
-import Book from "./models/Book.js";
+import routes from "./routes/index.js";
 
 const connection = await connectDatabase()
 
@@ -14,16 +14,7 @@ connection.once("open", () => {
 
 const app = express()
 
-app.use(express.json())
-
-app.get("/", (req, res) => {
-    res.status(200).send("Estou enviando uma resposta!");
-})
-
-app.get("/livros", async (req, res) => {
-    const listBooks = await Book.find({})
-    res.status(200).json(listBooks);
-})
+routes(app);
 
 app.get("/livros/:id", async (req, res) => {
     const foundBook = await Book.findById(req.params.id);
