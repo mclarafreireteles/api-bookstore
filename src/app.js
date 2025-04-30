@@ -18,8 +18,7 @@ routes(app);
 
 
 app.delete("/livros/:id", async (req, res) => {
-    const deletedBook = await Book.findByIdAndDelete(req.params.id);
-    res.status(200).send("Livro removido com sucesso")
+   
 })
 
 

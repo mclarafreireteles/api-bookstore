@@ -39,6 +39,15 @@ class BookController {
             res.status(500).json({ message: `${err.message}` })
         }
     };
+
+    static async deleteBookById (req, res) {
+        try {
+            await book.findByIdAndDelete(req.params.id);
+            res.status(200).send("Livro removido com sucesso")
+        } catch (err) {
+            res.status(500).json({ message: `${err.message}` });
+        }
+    }
 }
 
 export default BookController;
