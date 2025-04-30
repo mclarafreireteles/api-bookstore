@@ -7,6 +7,7 @@ class BookController {
             const listBooks = await book.find({});
             res.status(200).json(listBooks)
         } catch (err) {
+
             res.status(500).json({ message: `${err.message}` })
         }
     };
