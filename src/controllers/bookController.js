@@ -1,8 +1,8 @@
 import book from "../models/Book.js";
 
 class BookController {
-
-    static async listBooks (req, res) {
+    
+    static listBooks = async (req, res) => {
         try {
             const listBooks = await book.find({}).populate("author").exec();
             res.status(200).json(listBooks)
@@ -11,7 +11,7 @@ class BookController {
         }
     };
 
-    static async listBooksById (req, res) {
+    static listBooksById  = async (req, res) => {
         try {
             const id = req.params.id
             const foundBook = await book.findById(id);
@@ -21,7 +21,7 @@ class BookController {
         }
     };
 
-    static async registerBook (req, res) {
+    static registerBook  = async (req, res) => {
         try {
             const newBook = await book.create(req.body);
             const populatedBook = await book.findById(newBook._id).populate('author');
@@ -31,17 +31,17 @@ class BookController {
         }
     }
 
-    static async updateBookById (req, res) {
+    static updateBookById = async (req, res) => {
         try {
             const id = req.params.id
-            await book.findByIdAndUpdate(id, req.body);
+            await book.findByIdAndUpdate(id, {$set: req.body});
             res.status(200).json({message: "livro atualizado"});
         } catch (err) {
             res.status(500).json({ message: `${err.message}` })
         }
     };
 
-    static async deleteBookById (req, res) {
+    static deleteBookById = async (req, res) => {
         try {
             await book.findByIdAndDelete(req.params.id);
             res.status(200).send("Livro removido com sucesso")
@@ -50,10 +50,10 @@ class BookController {
         }
     };
 
-    static async listBooksByPublisher (req, res) {
+    static listBooksByPublisher = async (req, res) => {
         const publisher = req.query.editora;
         try {
-            const bookByPublisher  = await book.find({ editora: publisher });
+            const bookByPublisher  = await book.find({ "publisher": publisher });
             res.status(200).json(bookByPublisher)
         } catch (err) {
             res.status(500).json({ message: `${err.message}` })

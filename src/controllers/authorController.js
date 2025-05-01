@@ -2,16 +2,16 @@ import { author } from "../models/Author.js";
 
 class AuthorController {
 
-    static async listAuthors (req, res) {
+    static listAuthors = async (req, res) => {
         try {
-            const listAuthors = await author.find({});
+            const listAuthors = await author.find();
             res.status(200).json(listAuthors)
         } catch (err) {
             res.status(500).json({ message: `${err.message}` })
         }
     };
 
-    static async listAuthorsById (req, res) {
+    static listAuthorsById  = async (req, res) => {
         try {
             const id = req.params.id
             const foundAuthor = await author.findById(id);
@@ -21,7 +21,7 @@ class AuthorController {
         }
     };
 
-    static async registerAuthor (req, res) {
+    static registerAuthor = async (req, res)  => {
         try {
             const newAuthor = await author.create(req.body);
             res.status(201).json({ message: "Criado com sucesso", author: newAuthor })
@@ -30,19 +30,20 @@ class AuthorController {
         }
     }
 
-    static async updateAuthorById (req, res) {
+    static updateAuthorById = async (req, res) => {
         try {
             const id = req.params.id
-            await author.findByIdAndUpdate(id, req.body);
+            await author.findByIdAndUpdate(id, {$set: req.body});
             res.status(200).json({message: "Autor atualizado"});
         } catch (err) {
             res.status(500).json({ message: `${err.message}` })
         }
     };
 
-    static async deleteAuthorById (req, res) {
+    static  deleteAuthorById  = async (req, res) => {
         try {
-            await author.findByIdAndDelete(req.params.id);
+            const id = req.params.id;
+            await author.findByIdAndDelete(id);
             res.status(200).send("Autor removido com sucesso")
         } catch (err) {
             res.status(500).json({ message: `${err.message}` });
