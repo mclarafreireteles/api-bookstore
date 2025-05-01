@@ -16,10 +16,4 @@ const app = express()
 
 routes(app);
 
-
-app.delete("/livros/:id", async (req, res) => {
-   
-})
-
-
 export default app;

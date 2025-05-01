@@ -23,8 +23,11 @@ class BookController {
     };
 
     static async registerBook (req, res) {
+        const newBook = await book.create(req.body);
         try {
-            const newBook = await book.create(req.body);
+            const authorFound = await author.findById(newBook.author)
+            const bookComplete = { ...newBook, author: { ...authorFound._doc}};
+            const bookCreated = await book.create(bookComplete);
             res.status(201).json({ message: "Criado com sucesso", livro: newBook })
         } catch (err) {
             res.status(500).json({ message: `${err.message} - falha ao cadastrar novo livro` })        
