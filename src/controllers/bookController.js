@@ -4,10 +4,9 @@ class BookController {
 
     static async listBooks (req, res) {
         try {
-            const listBooks = await book.find({});
+            const listBooks = await book.find({}).populate("author").exec();
             res.status(200).json(listBooks)
         } catch (err) {
-
             res.status(500).json({ message: `${err.message}` })
         }
     };
@@ -23,12 +22,10 @@ class BookController {
     };
 
     static async registerBook (req, res) {
-        const newBook = await book.create(req.body);
         try {
-            const authorFound = await author.findById(newBook.author)
-            const bookComplete = { ...newBook, author: { ...authorFound._doc}};
-            const bookCreated = await book.create(bookComplete);
-            res.status(201).json({ message: "Criado com sucesso", livro: newBook })
+            const newBook = await book.create(req.body);
+            const populatedBook = await book.findById(newBook._id).populate('author');
+            res.status(201).json({ message: "Criado com sucesso", book: populatedBook })
         } catch (err) {
             res.status(500).json({ message: `${err.message} - falha ao cadastrar novo livro` })        
         }
@@ -50,6 +47,16 @@ class BookController {
             res.status(200).send("Livro removido com sucesso")
         } catch (err) {
             res.status(500).json({ message: `${err.message}` });
+        }
+    };
+
+    static async listBooksByPublisher (req, res) {
+        const publisher = req.query.editora;
+        try {
+            const bookByPublisher  = await book.find({ editora: publisher });
+            res.status(200).json(bookByPublisher)
+        } catch (err) {
+            res.status(500).json({ message: `${err.message}` })
         }
     }
 }

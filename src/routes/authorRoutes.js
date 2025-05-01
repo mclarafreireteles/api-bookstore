@@ -11,7 +11,7 @@ routes.post("/authors", AuthorController.registerAuthor)
 
 routes.put("/authors/:id", AuthorController.updateAuthorById)
 
-routes.delete("/books/:id", AuthorController.deleteAuthorById)
+routes.delete("/authors/:id", AuthorController.deleteAuthorById)
 
 
 export default routes;
