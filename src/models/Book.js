@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { authorSchema } from "./Author.js";
 
 const bookSchema = new mongoose.Schema({
     id: { type: mongoose.Schema.Types.ObjectId },
