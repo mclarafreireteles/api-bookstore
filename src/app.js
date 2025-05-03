@@ -16,4 +16,8 @@ const app = express()
 
 routes(app);
 
+app.use((err, req, res, next) => {
+    
+})
+
 export default app;
