@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { author } from "../models/Author.js";
 
 class AuthorController {
@@ -12,7 +11,7 @@ class AuthorController {
         }
     };
 
-    static listAuthorsById  = async (req, res) => {
+    static listAuthorsById  = async (req, res, next) => {
         try {
             const id = req.params.id
             const foundAuthor = await author.findById(id);
@@ -24,40 +23,36 @@ class AuthorController {
 
             }
         } catch (err) {
-            if (err instanceof mongoose.Error.CastError) {
-            res.status(400).send({ message:"Um ou mais dados fornecidos estão incorretos" });
-            } else {
-                res.status(500).send({ message:"Erro interno do servidor" });
-            }
+            next(err)
         }
     };
 
-    static registerAuthor = async (req, res)  => {
+    static registerAuthor = async (req, res, next)  => {
         try {
             const newAuthor = await author.create(req.body);
             res.status(201).json({ message: "Criado com sucesso", author: newAuthor })
         } catch (err) {
-            res.status(500).json({ message: `${err.message} - falha ao cadastrar novo autor` })        
+            next(err);
         }
     }
 
-    static updateAuthorById = async (req, res) => {
+    static updateAuthorById = async (req, res, next) => {
         try {
             const id = req.params.id
             await author.findByIdAndUpdate(id, {$set: req.body});
             res.status(200).json({message: "Autor atualizado"});
         } catch (err) {
-            res.status(500).json({ message: `${err.message}` })
+            next(err);
         }
     };
 
-    static  deleteAuthorById  = async (req, res) => {
+    static  deleteAuthorById  = async (req, res, next) => {
         try {
             const id = req.params.id;
             await author.findByIdAndDelete(id);
             res.status(200).send("Autor removido com sucesso")
         } catch (err) {
-            res.status(500).json({ message: `${err.message}` });
+            next(err);
         }
     }
 }
